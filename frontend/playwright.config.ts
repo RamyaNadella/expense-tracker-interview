@@ -10,6 +10,8 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
   fullyParallel: true,
   projects: [
@@ -23,6 +25,10 @@ export default defineConfig({
       command: 'npm run dev',
       cwd: '../backend',
       url: 'http://localhost:3002/api/health',
+      env: {
+        ...process.env,
+        JWT_SECRET: process.env.JWT_SECRET ?? 'expense-tracker-e2e-jwt-secret',
+      },
       reuseExistingServer: true,
       timeout: 120000,
     },

@@ -12,6 +12,11 @@ Integration tests validate real API behavior across routes, auth, DB access, and
 - Runner: Vitest (Node environment).
 - Config include pattern: `src/tests/integration/**/*.test.ts`.
 - Uses `supertest` against the Express app with real DB interactions.
+- Shared setup file: `src/tests/setup-env.ts` (loaded by `backend/vitest.config.ts`).
+
+## JWT_SECRET Handling In Tests
+- Backend integration tests also run under Vitest, so they inherit `process.env.JWT_SECRET` from `src/tests/setup-env.ts` when not set.
+- This applies to both normal integration tests and integration bug tests.
 
 ## What This Layer Should Cover
 - End-to-end backend flows (`auth -> protected route -> persistence`).

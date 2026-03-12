@@ -12,6 +12,10 @@ This folder captures known backend bugs that only show up when full route + auth
 - DB-backed behavior defects (invalid references, counts, boundaries).
 - Import flow defects under real request/response conditions.
 
+## JWT_SECRET Note
+- Integration bug tests run with the same Vitest setup as other backend tests.
+- `src/tests/setup-env.ts` provides `process.env.JWT_SECRET` when absent, unless a test intentionally overrides it.
+
 ## How To Run
 From `backend/`:
 - Run all bug integration tests:

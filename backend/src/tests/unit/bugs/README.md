@@ -12,6 +12,10 @@ This folder tracks known backend unit-level defects with focused tests.
 - Validation defects (status code/contract mismatches).
 - Parsing/date logic defects detectable at unit level.
 
+## JWT_SECRET Note
+- This suite runs under Vitest and inherits `src/tests/setup-env.ts`, which sets `process.env.JWT_SECRET` for normal execution.
+- JWT-specific security tests may explicitly unset/reset `process.env.JWT_SECRET` to validate missing-secret behavior.
+
 ## How To Run
 From `backend/`:
 - Run all bug unit tests:

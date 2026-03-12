@@ -2,7 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 import { describe, expect, test } from 'vitest';
-import { authenticateToken, JWT_SECRET } from '../../middleware/auth.js';
+import { authenticateToken } from '../../middleware/auth.js';
 
 function makeApp() {
   const app = express();
@@ -13,6 +13,14 @@ function makeApp() {
 }
 
 describe('auth middleware', () => {
+  function requiredJwtSecret() {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error('JWT_SECRET must be defined for auth tests');
+    }
+    return secret;
+  }
+
   test('returns 401 when Authorization header is missing', async () => {
     const app = makeApp();
     const response = await request(app).get('/protected');
@@ -49,7 +57,7 @@ describe('auth middleware', () => {
 
   test('returns 403 when token is expired', async () => {
     const app = makeApp();
-    const expiredToken = jwt.sign({ userId: 1, email: 'expired@example.com' }, JWT_SECRET, {
+    const expiredToken = jwt.sign({ userId: 1, email: 'expired@example.com' }, requiredJwtSecret(), {
       expiresIn: -60,
     });
     const response = await request(app)

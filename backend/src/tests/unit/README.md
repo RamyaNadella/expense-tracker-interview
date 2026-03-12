@@ -10,9 +10,15 @@ Unit tests validate backend behavior in isolation (route validation, middleware 
 ## Framework
 - Runner: Vitest (Node environment).
 - Config include pattern: `src/tests/unit/**/*.test.ts`.
+- Shared setup file: `src/tests/setup-env.ts` (loaded by `backend/vitest.config.ts`).
 - Typical strategy:
   - mock services when testing route validation behavior;
   - test middleware and utility behavior directly.
+
+## JWT_SECRET Handling In Tests
+- Unit tests run under Vitest, so `src/tests/setup-env.ts` sets `process.env.JWT_SECRET` when missing.
+- This avoids accidental dependence on middleware fallback values in most tests.
+- Security bug tests can still unset/override `process.env.JWT_SECRET` inside the test to verify fail-fast behavior.
 
 ## What This Layer Should Cover
 - Input validation and status codes.
